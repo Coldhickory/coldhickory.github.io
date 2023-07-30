@@ -2,35 +2,88 @@
 <html>
 <head>
   <title>抽卡系统</title>
-</head>
-<body>
-  <h1>抽卡系统</h1>
-  
-  <button onclick="drawCard()">抽卡</button>
-  
-  <h2>抽卡结果：</h2>
-  <div id="result"></div>
-  
+  <style>
+    .result {
+      width: 200px;
+      height: 300px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    .star3 {
+      color: #0000FF;
+    }
+
+    .star4 {
+      color: #FFA500;
+    }
+
+    .star5 {
+      color: #FF0000;
+    }
+  </style>
   <script>
-    // 定义卡池，包含不同稀有度的角色
-    const cardPool = [
-      { name: "角色A", rarity: "三星" },
-      { name: "角色B", rarity: "三星" },
-      { name: "角色C", rarity: "四星" },
-      { name: "角色D", rarity: "四星" },
-      { name: "角色E", rarity: "五星" },
-      { name: "角色F", rarity: "五星" }
-    ];
-    
+    var totalCount = 0;
+    var star3Count = 0;
+    var star4Count = 0;
+    var star5Count = 0;
+    var star5Probability = 0.00106;
+
     function drawCard() {
-      // 随机从卡池中抽取一张卡
-      const randomIndex = Math.floor(Math.random() * cardPool.length);
-      const card = cardPool[randomIndex];
-      
-      // 显示抽卡结果
-      const resultElement = document.getElementById("result");
-      resultElement.innerHTML = `获得 ${card.rarity} ${card.name}！`;
+      var result = document.getElementById("result");
+
+      for (var i = 1; i <= 10; i++) {
+        totalCount++;
+
+        var random = Math.random();
+        var card = "";
+
+        if (totalCount === 74) {
+          star5Probability = 0.01;
+        } else if (totalCount === 89) {
+          star5Probability = 1.0;
+        }
+
+        if (random < 0.88) {
+          // 3-star item
+          card = "<span class='star3'>3★</span>";
+          star3Count++;
+        } else if (random < 0.98) {
+          // 4-star item
+          card = "<span class='star4'>4★</span>";
+          star4Count++;
+        } else if (random < 0.98 + star5Probability * 0.5) {
+          // 5-star up item
+          card = "<span class='star5'>5★ UP</span>";
+          star5Count++;
+        } else {
+          // 5-star permanent item
+          card = "<span class='star5'>5★</span>";
+          star5Count++;
+        }
+
+        result.innerHTML += card + " ";
+      }
+
+      if (star5Count > 0) {
+        // Reset the count after getting a 5-star item
+        star5Count = 0;
+        star5Probability = 0.00106;
+      }
+
+      var totalCountDisplay = "总次数：" + totalCount;
+      var starCountDisplay = "3★：" + star3Count + "，4★：" + star4Count + "，5★：" + star5Count;
+
+      document.getElementById("totalCount").innerHTML = totalCountDisplay;
+      document.getElementById("starCount").innerHTML = starCountDisplay;
     }
   </script>
+</head>
+<body>
+  <button onclick="drawCard()">十连抽卡</button>
+  <div class="result" id="result"></div>
+  <div id="totalCount"></div>
+  <div id="starCount"></div>
 </body>
 </html>
