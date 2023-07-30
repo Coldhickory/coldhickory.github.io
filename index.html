@@ -47,19 +47,31 @@
 
         if (random < 0.88) {
           // 3-star item
-          card = "<span class='star3'>3★</span>";
+          var randomIndex = Math.floor(Math.random() * 3); // Randomly select one of the 3-star items
+          var star3Items = ["角色1", "角色2", "角色3", "武器1", "武器2", "武器3"];
+          var item = star3Items[randomIndex];
+          card = "<span class='star3'>3★ " + item + "</span>";
           star3Count++;
         } else if (random < 0.98) {
           // 4-star item
-          card = "<span class='star4'>4★</span>";
+          var randomIndex = Math.floor(Math.random() * 3); // Randomly select one of the 4-star items
+          var star4Items = ["角色4", "角色5", "武器4"];
+          var item = star4Items[randomIndex];
+          card = "<span class='star4'>4★ " + item + "</span>";
           star4Count++;
         } else if (random < 0.98 + star5Probability * 0.5) {
           // 5-star up item
-          card = "<span class='star5'>5★ UP</span>";
+          var randomIndex = Math.floor(Math.random() * 2); // Randomly select one of the 5-star up items
+          var star5UpItems = ["角色114514", "武器114514"];
+          var item = star5UpItems[randomIndex];
+          card = "<span class='star5'>5★ UP " + item + "</span>";
           star5Count++;
         } else {
           // 5-star permanent item
-          card = "<span class='star5'>5★</span>";
+          var randomIndex = Math.floor(Math.random() * 2); // Randomly select one of the 5-star permanent items
+          var star5PermanentItems = ["角色L", "武器L"];
+          var item = star5PermanentItems[randomIndex];
+          card = "<span class='star5'>5★ " + item + "</span>";
           star5Count++;
         }
 
@@ -87,3 +99,4 @@
   <div id="starCount"></div>
 </body>
 </html>
+
